@@ -1,6 +1,11 @@
 package za.co.wethinkcode.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Character {
+	@NotNull
+	private String name;
+	
     @NotNull
     private int health;
 
@@ -9,7 +14,9 @@ public class Character {
 
     @NotNull
     private int defense;
-    // Coordinates;
+    
+    @NotNull
+    private Coordinates coordinates;
 
     public Character(int health, int attack, int defense) {
         this.health = health;
