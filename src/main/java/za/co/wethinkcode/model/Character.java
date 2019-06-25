@@ -1,5 +1,7 @@
 package za.co.wethinkcode.model;
 
+import javax.validation.constraints.NotNull;
+
 public class Character {
     @NotNull
     private int health;
