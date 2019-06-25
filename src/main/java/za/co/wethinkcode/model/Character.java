@@ -2,7 +2,7 @@ package za.co.wethinkcode.model;
 
 import javax.validation.constraints.NotNull;
 
-public class Character {
+public abstract class Character {
 	@NotNull
 	private String name;
 	
@@ -18,11 +18,18 @@ public class Character {
     @NotNull
     private Coordinates coordinates;
 
-    public Character(int health, int attack, int defense) {
+    public Character(String name, int health, int attack, int defense, int x, int y) {
         this.health = health;
         this.attack = attack;
         this.defense = defense;
+        this.coordinates = new Coordinates(x, y);
     }
-
-    // Move Cardinal Direction
+    
+    public String getName() { return this.name; }
+    
+    public int getHealth() { return this.health; }
+    
+    public int getAttack() { return this.attack; }
+    
+    public int getDefense() { return this.defense; }
 }
