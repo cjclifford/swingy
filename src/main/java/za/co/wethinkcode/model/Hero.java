@@ -17,38 +17,56 @@ public class Hero extends Character {
 	private int xp;
 	
 	@NotNull
-	private int xpRequirements;
+	private int xpRequirement;
 	
-	//TODO: Make this a builder constructor instead
-	public Hero(String name, int health, int attack, int defense, int x, int y) {
-		super(name, health, attack, defense, x, y);
+	public Hero(String name, int health, int attack, int defense, Coordinates coordinates) {
+		super(name, health, attack, defense, coordinates);
+		
+		this.level = 1;
+		this.xp = 0;
+		this.xpRequirement = this.calculateXpRequirement();
+		
+		this.weapon = null;
+		this.armour = null;
+		this.helmet = null;
+	}
+	
+	public Hero(String name) {
+		super(name);
+	}
+	
+	public int calculateXpRequirement() {
+		return this.level * 1000 + (this.level - 1) * (this.level - 1) * 450;
 	}
 	
 	public int getLevel() { return this.level; }
 	
 	public int getXp() { return this.xp; }
 	
-	public int getXpRequirements() { return this.xpRequirements; }
+	public int getXpRequirement() { return this.xpRequirement; }
 	
 	//TODO: Implementation
-	public void fight(Character enemy) {
+	public void fight(Enemy enemy) {
 		System.out.println("slap!");
 	}
 
 	//TODO: Implementation
-	public boolean run(Character enemy) {
+	public boolean run(Enemy enemy) {
 		System.out.println("running");
 		return true;
 	}
 	
-	private void levelUp() {}
+	private void levelUp() {
+		this.level++;
+		// do some stat improvements here
+	}
 	
 	public void gainXp(int xp) {
 		this.xp += xp;
-		if (this.xp >= this.xpRequirements) {
+		if (this.xp >= this.xpRequirement) {
 			this.levelUp();
-			this.xp = this.xp - this.xpRequirements;
-			this.xpRequirements = this.level * 1000 + (this.level - 1) * (this.level - 1) * 450;
+			this.xp = this.xp - this.xpRequirement;
+			this.xpRequirement = this.calculateXpRequirement();
 		}
 	}
 	

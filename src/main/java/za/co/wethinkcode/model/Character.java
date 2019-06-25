@@ -4,7 +4,7 @@ import javax.validation.constraints.NotNull;
 
 public abstract class Character {
 	@NotNull
-	private String name;
+	private final String name;
 	
     @NotNull
     private int health;
@@ -18,11 +18,19 @@ public abstract class Character {
     @NotNull
     private Coordinates coordinates;
 
-    public Character(String name, int health, int attack, int defense, int x, int y) {
+    public Character(String name, int health, int attack, int defense, Coordinates coordinates) {
+    	this.name = name;
         this.health = health;
         this.attack = attack;
         this.defense = defense;
-        this.coordinates = new Coordinates(x, y);
+        this.coordinates = coordinates;
+    }
+    
+    public Character(String name) {
+    	this.name = name;
+    	this.health = 100;
+    	this.attack = 1;
+    	this.defense = 0;
     }
     
     public String getName() { return this.name; }
