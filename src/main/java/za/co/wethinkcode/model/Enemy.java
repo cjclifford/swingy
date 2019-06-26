@@ -9,8 +9,7 @@ public class Enemy extends Character {
 				builder.name,
 				builder.health,
 				builder.attack,
-				builder.defense,
-				builder.coordinates
+				builder.defense
 		);
 		
 		this.loot = builder.loot;

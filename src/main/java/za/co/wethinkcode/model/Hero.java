@@ -19,11 +19,11 @@ public class Hero extends Character {
 	@NotNull
 	private int xpRequirement;
 	
-	public Hero(String name, int health, int attack, int defense, Coordinates coordinates) {
-		super(name, health, attack, defense, coordinates);
+	public Hero(String name, int level, int xp, int health, int attack, int defense) {
+		super(name, health, attack, defense);
 		
-		this.level = 1;
-		this.xp = 0;
+		this.level = level;
+		this.xp = xp;
 		this.xpRequirement = this.calculateXpRequirement();
 		
 		this.weapon = null;
@@ -32,7 +32,15 @@ public class Hero extends Character {
 	}
 	
 	public Hero(String name) {
-		super(name);
+		super(name, 100, 1, 0);
+		
+		this.level = 1;
+		this.xp = 0;
+		this.xpRequirement = this.calculateXpRequirement();
+		
+		this.weapon = null;
+		this.armour = null;
+		this.helmet = null;
 	}
 	
 	public int calculateXpRequirement() {

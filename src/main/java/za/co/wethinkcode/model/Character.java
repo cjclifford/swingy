@@ -16,14 +16,13 @@ public abstract class Character {
     private int defense;
     
     @NotNull
-    private Coordinates coordinates;
+    public Coordinates coordinates;
 
-    public Character(String name, int health, int attack, int defense, Coordinates coordinates) {
+    public Character(String name, int health, int attack, int defense) {
     	this.name = name;
         this.health = health;
         this.attack = attack;
         this.defense = defense;
-        this.coordinates = coordinates;
     }
     
     public Character(String name) {
@@ -40,4 +39,11 @@ public abstract class Character {
     public int getAttack() { return this.attack; }
     
     public int getDefense() { return this.defense; }
+    
+    public void setHealth(int health) { this.health = health; }
+    
+    public void setAttack(int attack) { this.attack = attack; }
+    
+    public void setDefense(int defense) { this.defense = defense; }
+    
 }
