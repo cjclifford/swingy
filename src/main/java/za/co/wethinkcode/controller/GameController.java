@@ -1,36 +1,39 @@
 package za.co.wethinkcode.controller;
 
-import za.co.wethinkcode.model.World;
-import za.co.wethinkcode.model.Cardinal;
+import za.co.wethinkcode.model.Controller;
+import za.co.wethinkcode.model.Game;
+import za.co.wethinkcode.model.RenderMode;
 
-public class GameController {
+import javax.validation.constraints.NotNull;
+
+public class GameController implements IController{
 	
-	private World world;
+	private Game game;
 	
-	public GameController(World world) { this.world = world; }
+	// TODO: implement swing renderer
+	// private SwingRenderer swingRenderer;
 	
-	// onMove()
-	public void onMove(Cardinal cardinal) {
-		switch (cardinal) {
-		case NORTH:
-			if (this.world.hero.coordinates.getY() > 0)
-				this.world.hero.coordinates.decrementY();
-			break;
-		case SOUTH:
-			if (this.world.hero.coordinates.getY() < this.world.getSize() - 1)
-				this.world.hero.coordinates.incrementY();
-			break;
-		case WEST:
-			if (this.world.hero.coordinates.getX() > 0)
-				this.world.hero.coordinates.decrementX();
-			break;
-		case EAST:
-			if (this.world.hero.coordinates.getX() < this.world.getSize() - 1)
-				this.world.hero.coordinates.incrementX();
-			break;
-		}
+	public GameController(Game game) {
+		this.game = game;
 	}
-	// onFight()
-	// onRun()
-
+	
+	public void handleConsoleInput() {
+	}
+	
+	// handle swing input
+	// public void handleSwingInput(Event e) {}
+	
+	public void update() {
+		
+	}
+	
+	public void render() {
+		
+	}
+	
+	@Override
+	public Controller run() {
+		return Controller.QUIT;
+	}
+	
 }

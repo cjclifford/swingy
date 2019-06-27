@@ -50,8 +50,6 @@ public class World {
 		// calculate size of map from hero level
 		this.size = (level - 1) * 5 + 10 - (level % 2);
 		
-		System.out.println(level + " " + this.size);
-		
 		// set player in the center of the board
 		int halfSize = (int)Math.ceil(this.size / 2);
 		this.hero.coordinates = new Coordinates(halfSize, halfSize);
