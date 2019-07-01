@@ -1,27 +1,27 @@
 package za.co.wethinkcode.controller;
 
-import za.co.wethinkcode.model.Controller;
+import za.co.wethinkcode.model.EController;
 import za.co.wethinkcode.model.Game;
 import za.co.wethinkcode.model.RenderMode;
-
-import javax.validation.constraints.NotNull;
+import za.co.wethinkcode.view.ConsoleGameView;
 
 public class GameController implements IController{
 	
 	private Game game;
+	
+	private ConsoleGameView consoleGameView;
 	
 	// TODO: implement swing renderer
 	// private SwingRenderer swingRenderer;
 	
 	public GameController(Game game) {
 		this.game = game;
+		this.consoleGameView = new ConsoleGameView(this.game);
 	}
 	
-	public void handleConsoleInput() {
-	}
+	public void handleInput() {
 	
-	// handle swing input
-	// public void handleSwingInput(Event e) {}
+	}
 	
 	public void update() {
 		
@@ -32,8 +32,8 @@ public class GameController implements IController{
 	}
 	
 	@Override
-	public Controller run() {
-		return Controller.QUIT;
+	public EController run() {
+		return EController.QUIT;
 	}
 	
 }

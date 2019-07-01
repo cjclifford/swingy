@@ -1,6 +1,6 @@
 package za.co.wethinkcode.controller;
 
-import za.co.wethinkcode.model.Controller;
+import za.co.wethinkcode.model.EController;
 import za.co.wethinkcode.model.Game;
 import za.co.wethinkcode.model.Hero;
 import za.co.wethinkcode.model.World;
@@ -18,12 +18,12 @@ public class SelectHeroController implements IController {
 	}
 	
 	@Override
-	public Controller run() {
+	public EController run() {
 		Hero hero = this.consoleSelectHeroView.onSelectHero();
 		if (hero == null)
-			return Controller.MAIN_MENU;
+			return EController.MAIN_MENU;
 		this.game.world = new World(hero);
-		return Controller.GAME;
+		return EController.GAME;
 	}
 
 }

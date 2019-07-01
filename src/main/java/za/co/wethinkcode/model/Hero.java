@@ -4,6 +4,8 @@ import javax.validation.constraints.NotNull;
 
 public class Hero extends Character {
 	
+	private String heroClass;
+	
 	private Item weapon;
 	
 	private Item armour;
@@ -19,33 +21,35 @@ public class Hero extends Character {
 	@NotNull
 	private int xpRequirement;
 	
-	public Hero(String name, int level, int xp, int health, int attack, int defense) {
+	public Hero(String name, String heroClass, int level, int xp, int health, int attack, int defense, Weapon weapon, Armour armour, Helmet helmet) {
 		super(name, health, attack, defense);
 		
 		this.level = level;
 		this.xp = xp;
 		this.xpRequirement = this.calculateXpRequirement();
 		
-		this.weapon = null;
-		this.armour = null;
-		this.helmet = null;
+		this.weapon = weapon;
+		this.armour = armour;
+		this.helmet = helmet;
 	}
 	
-	public Hero(String name) {
-		super(name, 100, 1, 0);
+	public Hero(String name, String heroClass, int health, int attack, int defense, Weapon weapon, Armour armour, Helmet helmet) {
+		super(name, health, attack, defense);
 		
 		this.level = 1;
 		this.xp = 0;
 		this.xpRequirement = this.calculateXpRequirement();
 		
-		this.weapon = null;
-		this.armour = null;
-		this.helmet = null;
+		this.weapon = weapon;
+		this.armour = armour;
+		this.helmet = helmet;
 	}
 	
 	public int calculateXpRequirement() {
 		return this.level * 1000 + (this.level - 1) * (this.level - 1) * 450;
 	}
+	
+	public String getHeroClass() { return this.heroClass; }
 	
 	public int getLevel() { return this.level; }
 	

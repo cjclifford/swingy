@@ -1,10 +1,11 @@
 package za.co.wethinkcode.model;
 
-public enum Controller {
+public enum EController {
 
 	MAIN_MENU,
 	SELECT_HERO,
 	CREATE_HERO,
 	GAME,
 	QUIT
+
 }

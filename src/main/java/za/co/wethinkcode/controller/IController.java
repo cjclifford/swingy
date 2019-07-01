@@ -1,9 +1,9 @@
 package za.co.wethinkcode.controller;
 
-import za.co.wethinkcode.model.Controller;
+import za.co.wethinkcode.model.EController;
 
 public interface IController {
 	
-	public Controller run();
+	public EController run();
 
 }

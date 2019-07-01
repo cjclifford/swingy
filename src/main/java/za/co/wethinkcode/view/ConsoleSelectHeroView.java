@@ -17,10 +17,10 @@ public class ConsoleSelectHeroView {
 		System.out.println("Select a hero:");
 		
 		for (int i = 0; i < this.game.heroes.size(); i++) {
-			System.out.println(String.format("%d %s", i + 1, this.game.heroes.get(i).getName()));
+			System.out.printf("%d %s\n", i + 1, this.game.heroes.get(i).getName());
 		}
 		
-		System.out.println("[B] To go back");
+		System.out.println("[B] Go back");
 		
 		Scanner scanner = new Scanner(System.in);
 		String input;
@@ -33,16 +33,16 @@ public class ConsoleSelectHeroView {
 				index = Integer.parseInt(input) - 1;
 				try {
 					hero = this.game.heroes.get(index);
-					scanner.close();
 					return hero;
 				} catch (NullPointerException e) {
-					System.out.println(String.format("%d is not a valid hero", index));
+					System.out.printf("%d is not a valid hero\n", index);
 				}
 			} catch (NumberFormatException e) {
-				if (input.toUpperCase().contentEquals("B"))
+				if (input.toUpperCase().contentEquals("B")) {
 					return null;
+				}
 				else
-					System.out.println(String.format("%s is not a valid option", input));
+					System.out.printf("%s is not a valid option\n", input);
 			}
 		}
 	}

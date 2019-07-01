@@ -1,19 +1,40 @@
 package za.co.wethinkcode.model;
 
+import za.co.wethinkcode.model.Weapon;
+import za.co.wethinkcode.model.HeroClass;
+import za.co.wethinkcode.model.Armour;
+import za.co.wethinkcode.model.Helmet;
+
 import javax.validation.constraints.NotNull;
-import java.io.File;
-import java.io.BufferedWriter;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Map;
+import java.util.HashMap;
 
 public class Game {
+	
+	public static enum EWeapon {
+		RUSTY_SWORD
+	}
+	
+	public static enum EArmour {
+		LEATHER_ARMOUR
+	}
+	
+	public static enum EHelmet {
+		LEATHER_CAP
+	}
 	
 	public World world;
 	
 	public ArrayList<Hero> heroes;
+	
+	public Map<String, HeroClass> heroClasses;
+	
+	public Map<EWeapon, Weapon> weapons;
+	
+	public Map<EArmour, Armour> armour;
+	
+	public Map<EHelmet, Helmet> helmets;
 	
 	@NotNull
 	public RenderMode renderMode;
@@ -21,38 +42,14 @@ public class Game {
 	public Game(RenderMode renderMode) {
 		this.renderMode = renderMode;
 		this.heroes = new ArrayList<>();
+		this.weapons = new HashMap<>();
+		this.armour = new HashMap<>();
+		this.helmets = new HashMap<>();
 		
-		Scanner fileScanner;
-		File file = new File("../../heroes.txt");
-		
-		try {
-			fileScanner = new Scanner(file);
-			if (fileScanner.hasNext()) {
-				String line;
-				while (fileScanner.hasNextLine()) {
-					line = fileScanner.nextLine();
-					String rawHero[] = line.split(",");
-					Hero loadedHero = new Hero(
-							rawHero[0],
-							Integer.parseInt(rawHero[1]),
-							Integer.parseInt(rawHero[2]),
-							Integer.parseInt(rawHero[3]),
-							Integer.parseInt(rawHero[4]),
-							Integer.parseInt(rawHero[5])
-					);
-					this.heroes.add(loadedHero);
-				}
-			}
-			fileScanner.close();
-		} catch (FileNotFoundException e) {
-			try {
-				System.out.println("heroes.txt not found, making it");
-				BufferedWriter fileWriter = new BufferedWriter(new FileWriter(file));
-				fileWriter.close();
-			} catch (IOException ioException) {
-				System.out.println("Failed to open file heroes.txt for writing");
-			}
-		}
+		// make some items
+		this.weapons.put(EWeapon.RUSTY_SWORD, new Weapon("Rusty Sword", 1));
+		this.armour.put(EArmour.LEATHER_ARMOUR, new Armour("Leather Armour", 1));
+		this.helmets.put(EHelmet.LEATHER_CAP, new Helmet("Leather Cap", 5));
 	}
 
 }
