@@ -12,6 +12,7 @@ public class Enemy extends Character {
 				builder.defense
 		);
 		
+		this.coordinates = builder.coordinates;
 		this.loot = builder.loot;
 	}
 	

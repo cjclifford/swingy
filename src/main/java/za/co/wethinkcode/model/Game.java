@@ -1,6 +1,9 @@
 package za.co.wethinkcode.model;
 
 import za.co.wethinkcode.model.Weapon;
+import za.co.wethinkcode.model.Game.EArmour;
+import za.co.wethinkcode.model.Game.EHelmet;
+import za.co.wethinkcode.model.Game.EWeapon;
 import za.co.wethinkcode.model.HeroClass;
 import za.co.wethinkcode.model.Armour;
 import za.co.wethinkcode.model.Helmet;
@@ -42,9 +45,23 @@ public class Game {
 	public Game(RenderMode renderMode) {
 		this.renderMode = renderMode;
 		this.heroes = new ArrayList<>();
+		this.heroClasses = new HashMap<>();
 		this.weapons = new HashMap<>();
 		this.armour = new HashMap<>();
 		this.helmets = new HashMap<>();
+		
+		// make some classes
+		this.heroClasses.put(
+				"Warrior",
+				new HeroClass(
+					100,
+					1,
+					1,
+					this.weapons.get(EWeapon.RUSTY_SWORD),
+					this.armour.get(EArmour.LEATHER_ARMOUR),
+					this.helmets.get(EHelmet.LEATHER_CAP)
+				)
+			);
 		
 		// make some items
 		this.weapons.put(EWeapon.RUSTY_SWORD, new Weapon("Rusty Sword", 1));

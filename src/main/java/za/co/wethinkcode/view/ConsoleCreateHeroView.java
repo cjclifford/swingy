@@ -27,7 +27,7 @@ public class ConsoleCreateHeroView {
 		String heroName;
 		String heroClassName;
 
-		System.out.println("What is the name of your hero?\n");
+		System.out.println("What is the name of your hero?");
 
 		Scanner scanner = new Scanner(System.in);
 		

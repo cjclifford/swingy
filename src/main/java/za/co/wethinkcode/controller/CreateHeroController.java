@@ -25,19 +25,6 @@ public class CreateHeroController implements IController {
 	@Override
 	public EController run() {
 		
-		// make some hero classes
-		this.game.heroClasses.put(
-			"Warrior",
-			new HeroClass(
-				100,
-				1,
-				1,
-				this.game.weapons.get(EWeapon.RUSTY_SWORD),
-				this.game.armour.get(EArmour.LEATHER_ARMOUR),
-				this.game.helmets.get(EHelmet.LEATHER_CAP)
-			)
-		);
-		
 		Hero hero = this.consoleCreateHeroView.onCreateHero();
 		
 		this.game.world = new World(hero);

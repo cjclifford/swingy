@@ -24,6 +24,8 @@ public class Hero extends Character {
 	public Hero(String name, String heroClass, int level, int xp, int health, int attack, int defense, Weapon weapon, Armour armour, Helmet helmet) {
 		super(name, health, attack, defense);
 		
+		this.heroClass = heroClass;
+		
 		this.level = level;
 		this.xp = xp;
 		this.xpRequirement = this.calculateXpRequirement();
@@ -35,6 +37,8 @@ public class Hero extends Character {
 	
 	public Hero(String name, String heroClass, int health, int attack, int defense, Weapon weapon, Armour armour, Helmet helmet) {
 		super(name, health, attack, defense);
+		
+		this.heroClass = heroClass;
 		
 		this.level = 1;
 		this.xp = 0;
