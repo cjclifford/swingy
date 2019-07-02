@@ -19,19 +19,22 @@ public class ConsoleGameView {
 		
 		Scanner scanner = new Scanner(System.in);
 		
-		switch (scanner.nextLine().toUpperCase()) {
-		case "NORTH":
-			return EInput.NORTH;
-		case "SOUTH":
-			return EInput.SOUTH;
-		case "EAST":
-			return EInput.EAST;
-		case "WEST":
-			return EInput.WEST;
-		default:
-			System.out.println("You cannot do that.");
+		while (true) {
+			switch (scanner.nextLine().toUpperCase()) {
+			case "NORTH":
+				return EInput.NORTH;
+			case "SOUTH":
+				return EInput.SOUTH;
+			case "EAST":
+				return EInput.EAST;
+			case "WEST":
+				return EInput.WEST;
+			case "QUIT":
+				return EInput.QUIT;
+			default:
+				System.out.println("You cannot do that.");
+			}
 		}
-		return EInput.QUIT;
 	}
 	
 	public void onRenderState() {
@@ -49,8 +52,45 @@ public class ConsoleGameView {
 		}
 	}
 	
+	public EInput onEncounter(Enemy enemy) {
+		System.out.printf("You encountered an %s\n[F] Fight\n[R] Run\n", enemy.getName());
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		while (true) {
+			switch (scanner.nextLine().toUpperCase()) {
+			case "F":
+				return EInput.FIGHT;
+			case "R":
+				return EInput.RUN;
+			default:
+				System.out.println("You cannot do that.");
+			}
+		}
+	}
+	
+	public void onRunSuccess() {
+		System.out.println("Successfully ran away");
+	}
+	
+	public void onRunFailure() {
+		System.out.println("Failed to run away.");
+	}
+	
 	public void onReachBoundary() {
 		System.out.println("You beat this map!");
+	}
+	
+	public void onFight(Enemy enemy) {
+		System.out.printf("You fight the %s\n", enemy.getName());
+	}
+	
+	public void onDefeatEnemy(Enemy enemy) {
+		System.out.printf("You have defeated the %s\n", enemy.getName());
+	}
+	
+	public void onDeath(Enemy enemy) {
+		System.out.printf("%s died to a %s\n", this.game.world.hero.getName(), enemy.getName());
 	}
 
 }

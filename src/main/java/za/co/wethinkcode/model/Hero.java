@@ -6,11 +6,11 @@ public class Hero extends Character {
 	
 	private String heroClass;
 	
-	private Item weapon;
+	private Weapon weapon;
 	
-	private Item armour;
+	private Armour armour;
 	
-	private Item helmet;
+	private Helmet helmet;
 	
 	@NotNull
 	private int level;
@@ -53,6 +53,24 @@ public class Hero extends Character {
 		return this.level * 1000 + (this.level - 1) * (this.level - 1) * 450;
 	}
 	
+	public int getTotalHealth() {
+		if (this.helmet != null)
+			return this.getHealth() + this.helmet.getProtection();
+		return this.getHealth();
+	}
+	
+	public int getTotalAttack() {
+		if (this.weapon != null)
+			return this.getAttack() + this.weapon.getDamage();
+		return this.getAttack();
+	}
+	
+	public int getTotalDefense() {
+		if (this.helmet != null)
+			return this.getDefense() + this.armour.getArmour();
+		return this.getDefense();
+	}
+	
 	public String getHeroClass() { return this.heroClass; }
 	
 	public int getLevel() { return this.level; }
@@ -88,11 +106,11 @@ public class Hero extends Character {
 	
 	public void equipItem(Item item) {
 		if (item instanceof Weapon) {
-			this.weapon = item;
+			this.weapon = (Weapon)item;
 		} else if (item instanceof Armour) {
-			this.armour = item;
+			this.armour = (Armour)item;
 		} else if (item instanceof Helmet) {
-			this.helmet = item;
+			this.helmet = (Helmet)item;
 		} else {
 			System.out.println("This item cannot be equipped.");
 		}

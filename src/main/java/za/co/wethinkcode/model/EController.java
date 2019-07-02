@@ -6,7 +6,6 @@ public enum EController {
 	SELECT_HERO,
 	CREATE_HERO,
 	GAME,
-	GAME_ENCOUNTER,
 	QUIT
 
 }

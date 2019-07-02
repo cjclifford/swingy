@@ -48,6 +48,10 @@ public class World {
 		}
 	}
 	
+	public Character boardAt(int x, int y) {
+		return this.board[y][x];
+	}
+	
 	public void moveEnemies() {
 		int x;
 		int y;
