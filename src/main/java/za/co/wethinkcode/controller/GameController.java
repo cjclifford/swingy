@@ -32,6 +32,7 @@ public class GameController implements IController {
 			
 			if (attack < 0) attack = 0;
 			hero.setHealth(hero.getTotalHealth() - attack);
+			this.game.world.removeEnemy(enemy);
 			this.consoleGameView.onDefeatEnemy(enemy);
 			return true;
 		} else {
@@ -41,18 +42,24 @@ public class GameController implements IController {
 		
 	}
 	
-	public boolean initiateEncounter(Enemy enemy) {
+	public boolean initiateEncounter(Enemy enemy, int x, int y) {
 		switch (this.consoleGameView.onEncounter(enemy)) {
 		case FIGHT:
-			return true;
+			if (this.simulateFight(enemy)) {
+				this.game.world.hero.coordinates.setX(x);
+				this.game.world.hero.coordinates.setY(y);
+				return true;
+			} else {
+				return false;
+			}
 		case RUN:
 			switch (new Random().nextInt(2)) {
 			case 0:
 				this.consoleGameView.onRunSuccess();
-				return false;
+				break;
 			case 1:
 				this.consoleGameView.onRunFailure();
-				return false;
+				break;
 			}
 		}
 		return false;
@@ -66,23 +73,19 @@ public class GameController implements IController {
 		int x = hero.coordinates.getX();
 		int y = hero.coordinates.getY();
 		
+		world.moveEnemies();
 		switch (input) {
 		case NORTH:
-			world.moveEnemies();
 			if (y <= 0) {
 				this.consoleGameView.onReachBoundary();
 				world.generateWorld();
 			} else {
 				character = this.game.world.boardAt(x, y - 1);
+				if (character != null)
+					System.out.println("Moving into space with " + character.getClass());
 				if (character instanceof Enemy) {
-					if (this.initiateEncounter((Enemy)character)) {
-						if (this.simulateFight((Enemy)character))
-							hero.coordinates.decrementY();
-						else {
-							this.consoleGameView.onDeath((Enemy)character);
-							return EController.QUIT;
-						}
-					}
+					if (!this.initiateEncounter((Enemy)character, x, y - 1))
+						return EController.QUIT;
 				} else {
 					hero.coordinates.decrementY();
 				}
@@ -90,21 +93,14 @@ public class GameController implements IController {
 			world.updateBoard();
 			return EController.GAME;
 		case SOUTH:
-			world.moveEnemies();
 			if (y >= world.getSize() - 1) {
 				this.consoleGameView.onReachBoundary();
 				world.generateWorld();
 			} else {
 				character = this.game.world.boardAt(x, y + 1);
 				if (character instanceof Enemy) {
-					if (this.initiateEncounter((Enemy)character)) {
-						if (this.simulateFight((Enemy)character))
-							hero.coordinates.incrementY();
-						else {
-							this.consoleGameView.onDeath((Enemy)character);
-							return EController.QUIT;
-						}
-					}
+					if (!this.initiateEncounter((Enemy)character, x, y + 1))
+						return EController.QUIT;
 				} else {
 					hero.coordinates.incrementY();
 				}
@@ -112,21 +108,14 @@ public class GameController implements IController {
 			world.updateBoard();
 			return EController.GAME;
 		case WEST:
-			world.moveEnemies();
 			if (x <= 0) {
 				this.consoleGameView.onReachBoundary();
 				world.generateWorld();
 			} else {
 				character = this.game.world.boardAt(x - 1, y);
 				if (character instanceof Enemy) {
-					if (this.initiateEncounter((Enemy)character)) {
-						if (this.simulateFight((Enemy)character))
-							hero.coordinates.decrementX();
-						else {
-							this.consoleGameView.onDeath((Enemy)character);
-							return EController.QUIT;
-						}
-					}
+					if (!this.initiateEncounter((Enemy)character, x - 1, y))
+						return EController.QUIT;
 				} else {
 					hero.coordinates.decrementX();
 				}
@@ -134,21 +123,14 @@ public class GameController implements IController {
 			world.updateBoard();
 			return EController.GAME;
 		case EAST:
-			world.moveEnemies();
 			if (hero.coordinates.getX() >= world.getSize() - 1) {
 				this.consoleGameView.onReachBoundary();
 				world.generateWorld();
 			} else {
 				character = this.game.world.boardAt(x + 1, y);
 				if (character instanceof Enemy) {
-					if (this.initiateEncounter((Enemy)character)) {
-						if (this.simulateFight((Enemy)character))
-							hero.coordinates.incrementY();
-						else {
-							this.consoleGameView.onDeath((Enemy)character);
-							return EController.QUIT;
-						}
-					}
+					if (!this.initiateEncounter((Enemy)character, x + 1, y))
+						return EController.QUIT;
 				} else {
 					hero.coordinates.incrementX();
 				}
@@ -156,10 +138,8 @@ public class GameController implements IController {
 			world.updateBoard();
 			return EController.GAME;
 		case QUIT:
-			System.out.println("wat");
 			return EController.QUIT;
 		}
-		System.out.println("wtf was that?");
 		return EController.QUIT;
 	}
 	

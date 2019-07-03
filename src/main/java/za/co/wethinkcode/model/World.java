@@ -52,6 +52,11 @@ public class World {
 		return this.board[y][x];
 	}
 	
+	public void removeEnemy(Enemy enemy) {
+		if (this.enemies.contains(enemy))
+			this.enemies.remove(enemy);
+	}
+	
 	public void moveEnemies() {
 		int x;
 		int y;
