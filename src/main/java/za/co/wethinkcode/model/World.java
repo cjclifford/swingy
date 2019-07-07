@@ -58,35 +58,30 @@ public class World {
 	}
 	
 	public void moveEnemies() {
-		int x;
-		int y;
+		int heroX = this.hero.coordinates.getX();
+		int heroY = this.hero.coordinates.getY();
 		
-		this.random = new Random();
+		int minX = -1;
+		int minY = -1;
+		
 		for (Enemy enemy : this.enemies) {
-			x = enemy.coordinates.getX();
-			y = enemy.coordinates.getY();
+			double minDistance = Integer.MAX_VALUE; 
+						
+			for (int i = enemy.coordinates.getY() - 1; i < 3; i++) {
+				for (int j = enemy.coordinates.getX() - 1; j < 3; j++) {
+					double distance = Math.sqrt((j - heroX) * (j - heroX) + (i - heroY) * (i - heroY));
+					if (this.board[i][j] == null && distance < minDistance) {
+						minDistance = distance;
+						minY = i;
+						minX = j;
+					}
+				}
+			}
 			
-			switch (this.random.nextInt(4)) {
-			case 0:
-				if (y - 1 > 0 && this.board[y - 1][x] == null) {
-					enemy.coordinates.decrementY();
-					break;
-				}
-			case 1:
-				if (y + 1 < this.size && this.board[y + 1][x] == null) {
-					enemy.coordinates.incrementY();
-					break;
-				}
-			case 2:
-				if (x - 1 > 0 && this.board[y][x - 1] == null) {
-					enemy.coordinates.decrementX();
-					break;
-				}
-			case 3:
-				if (x + 1 < this.size && this.board[y][x + 1] == null) {
-					enemy.coordinates.incrementX();
-					break;
-				}
+			if (minDistance < Integer.MAX_VALUE && minX != -1 && minY != -1) {
+				enemy.coordinates.setX(minX);
+				enemy.coordinates.setY(minY);
+				this.updateBoard();
 			}
 		}
 	}
@@ -102,11 +97,12 @@ public class World {
 		this.hero.coordinates = new Coordinates(halfSize, halfSize);
 		
 		this.board = new Character[this.size][this.size];
+		this.updateBoard();
 		
 		// TODO: give enemies different statistics based on level
 		this.enemyBuilder = new Enemy.EnemyBuilder("Generic Enemy")
 		.health(20)
-		.attack(2)
+		.attack(1)
 		.defense(0);
 		
 		this.enemies.clear();
@@ -123,9 +119,9 @@ public class World {
 				randY = random.nextInt(this.size);
 			}
 			this.enemies.add(this.enemyBuilder.coordinates(randY, randX).build());
+			this.updateBoard();
 		}
 		
-		this.updateBoard();
 	}
 
 }

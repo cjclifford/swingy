@@ -50,6 +50,8 @@ public class ConsoleGameView {
 			}
 			System.out.println();
 		}
+		// print hero info
+		System.out.println(this.game.world.hero.toString());
 	}
 	
 	public EInput onEncounter(Enemy enemy) {

@@ -23,17 +23,20 @@ public class GameController implements IController {
 		this.consoleGameView = new ConsoleGameView(this.game);
 	}
 	
-	public boolean simulateFight(Enemy enemy) {
+	public boolean simulateFight(Enemy enemy, int x, int y) {
 		Hero hero = this.game.world.hero;
 		
 		this.consoleGameView.onFight(enemy);
-		if (hero.getAttack() > enemy.getAttack()) {
+		if (hero.getAttack() >= enemy.getAttack()) {
 			int attack = hero.getTotalDefense() - enemy.getAttack();
 			
 			if (attack < 0) attack = 0;
 			hero.setHealth(hero.getTotalHealth() - attack);
 			this.game.world.removeEnemy(enemy);
 			this.consoleGameView.onDefeatEnemy(enemy);
+			this.game.world.hero.coordinates.setX(x);
+			this.game.world.hero.coordinates.setY(y);
+			hero.gainXp(enemy.getAttack() + enemy.getDefense() + enemy.getHealth());
 			return true;
 		} else {
 			this.consoleGameView.onDeath(enemy);
@@ -45,21 +48,15 @@ public class GameController implements IController {
 	public boolean initiateEncounter(Enemy enemy, int x, int y) {
 		switch (this.consoleGameView.onEncounter(enemy)) {
 		case FIGHT:
-			if (this.simulateFight(enemy)) {
-				this.game.world.hero.coordinates.setX(x);
-				this.game.world.hero.coordinates.setY(y);
-				return true;
-			} else {
-				return false;
-			}
+			return this.simulateFight(enemy, x, y);
 		case RUN:
 			switch (new Random().nextInt(2)) {
 			case 0:
 				this.consoleGameView.onRunSuccess();
-				break;
+				return true;
 			case 1:
 				this.consoleGameView.onRunFailure();
-				break;
+				return this.simulateFight(enemy, x, y);
 			}
 		}
 		return false;
@@ -73,7 +70,6 @@ public class GameController implements IController {
 		int x = hero.coordinates.getX();
 		int y = hero.coordinates.getY();
 		
-		world.moveEnemies();
 		switch (input) {
 		case NORTH:
 			if (y <= 0) {
@@ -88,8 +84,10 @@ public class GameController implements IController {
 						return EController.QUIT;
 				} else {
 					hero.coordinates.decrementY();
+					world.updateBoard();
 				}
 			}
+			world.moveEnemies();
 			world.updateBoard();
 			return EController.GAME;
 		case SOUTH:
@@ -103,8 +101,10 @@ public class GameController implements IController {
 						return EController.QUIT;
 				} else {
 					hero.coordinates.incrementY();
+					world.updateBoard();
 				}
 			}
+			world.moveEnemies();
 			world.updateBoard();
 			return EController.GAME;
 		case WEST:
@@ -118,8 +118,10 @@ public class GameController implements IController {
 						return EController.QUIT;
 				} else {
 					hero.coordinates.decrementX();
+					world.updateBoard();
 				}
 			}
+			world.moveEnemies();
 			world.updateBoard();
 			return EController.GAME;
 		case EAST:
@@ -133,8 +135,10 @@ public class GameController implements IController {
 						return EController.QUIT;
 				} else {
 					hero.coordinates.incrementX();
+					world.updateBoard();
 				}
 			}
+			world.moveEnemies();
 			world.updateBoard();
 			return EController.GAME;
 		case QUIT:

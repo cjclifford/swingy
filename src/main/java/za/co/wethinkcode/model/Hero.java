@@ -115,5 +115,23 @@ public class Hero extends Character {
 			System.out.println("This item cannot be equipped.");
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return String.format(
+			"%-10s %-10s\thp:%d(%d)\tatk:%d(%d)\tdef:%d(%d)\tlvl:%d\txp:%d/%d",
+			this.getName(),
+			this.getHeroClass(),
+			this.getTotalHealth(),
+			this.getHealth(),
+			this.getTotalAttack(),
+			this.getAttack(),
+			this.getTotalDefense(),
+			this.getDefense(),
+			this.getLevel(),
+			this.getXp(),
+			this.getXpRequirement()
+		);
+	}
 
 }
