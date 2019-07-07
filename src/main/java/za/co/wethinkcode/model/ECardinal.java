@@ -1,6 +1,6 @@
 package za.co.wethinkcode.model;
 
-public enum Cardinal {
+public enum ECardinal {
 	NORTH,
 	EAST,
 	SOUTH,

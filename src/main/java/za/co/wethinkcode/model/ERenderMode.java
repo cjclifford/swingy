@@ -1,6 +1,6 @@
 package za.co.wethinkcode.model;
 
-public enum RenderMode {
+public enum ERenderMode {
 	CONSOLE,
 	GUI
 }

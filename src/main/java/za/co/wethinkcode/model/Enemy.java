@@ -4,6 +4,8 @@ public class Enemy extends Character {
 	
 	private Item loot;
 	
+	public boolean isChasing;
+	
 	public Enemy(EnemyBuilder builder) {
 		super(
 				builder.name,
@@ -14,6 +16,7 @@ public class Enemy extends Character {
 		
 		this.coordinates = builder.coordinates;
 		this.loot = builder.loot;
+		this.isChasing = false;
 	}
 	
 	public Item dropLoot() { return this.loot; }

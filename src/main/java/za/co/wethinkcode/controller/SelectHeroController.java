@@ -23,8 +23,6 @@ public class SelectHeroController implements IController {
 		if (hero == null)
 			return EController.MAIN_MENU;
 		this.game.world = new World(hero);
-		System.out.println("wut");
-		this.game.world.getBoard();
 		return EController.GAME;
 	}
 

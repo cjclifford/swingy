@@ -7,8 +7,8 @@ public class Armour extends Item {
 	@NotNull
 	private int armour;
 	
-	public Armour(String name, int armour) {
-		super(name);
+	public Armour(String name, String id, int armour) {
+		super(name, id);
 		this.armour = armour;
 	}
 	

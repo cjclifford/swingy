@@ -66,7 +66,7 @@ public class Hero extends Character {
 	}
 	
 	public int getTotalDefense() {
-		if (this.helmet != null)
+		if (this.armour != null)
 			return this.getDefense() + this.armour.getArmour();
 		return this.getDefense();
 	}
@@ -79,20 +79,20 @@ public class Hero extends Character {
 	
 	public int getXpRequirement() { return this.xpRequirement; }
 	
-	//TODO: Implementation
-	public void fight(Enemy enemy) {
-		System.out.println("slap!");
-	}
-
-	//TODO: Implementation
-	public boolean run(Enemy enemy) {
-		System.out.println("running");
-		return true;
-	}
+	public Armour getEquippedArmour() { return this.armour; }
+	
+	public String getWeaponId() { return this.weapon.getId(); }
+	
+	public String getArmourId() { return this.armour.getId(); }
+	
+	public String getHelmetId() { return this.helmet.getId(); }
 	
 	private void levelUp() {
 		this.level++;
-		// do some stat improvements here
+		this.setHealth(this.getHealth() + 1);
+		this.setAttack(this.getAttack() + 1);
+		this.setDefense(this.getDefense() + 1);
+		
 	}
 	
 	public void gainXp(int xp) {

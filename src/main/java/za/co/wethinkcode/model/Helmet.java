@@ -7,8 +7,8 @@ public class Helmet extends Item {
 	@NotNull
 	private int protection;
 	
-	public Helmet(String name, int protection) {
-		super(name);
+	public Helmet(String name, String id, int protection) {
+		super(name, id);
 		this.protection = protection;
 	}
 	

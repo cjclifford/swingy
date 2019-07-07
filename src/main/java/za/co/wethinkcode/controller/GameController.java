@@ -7,7 +7,7 @@ import za.co.wethinkcode.model.Hero;
 import za.co.wethinkcode.model.Character;
 import za.co.wethinkcode.model.Enemy;
 import za.co.wethinkcode.model.World;
-import za.co.wethinkcode.model.RenderMode;
+import za.co.wethinkcode.model.ERenderMode;
 import za.co.wethinkcode.view.ConsoleGameView;
 
 import java.util.Random;
@@ -28,15 +28,17 @@ public class GameController implements IController {
 		
 		this.consoleGameView.onFight(enemy);
 		if (hero.getAttack() >= enemy.getAttack()) {
-			int attack = hero.getTotalDefense() - enemy.getAttack();
+			int attack = hero.getDefense() - enemy.getAttack();
 			
 			if (attack < 0) attack = 0;
-			hero.setHealth(hero.getTotalHealth() - attack);
+			int healthDamaged = hero.getEquippedArmour().getArmour() - attack;
+			if (healthDamaged < 0)
+				hero.setHealth(hero.getHealth() + healthDamaged);
 			this.game.world.removeEnemy(enemy);
 			this.consoleGameView.onDefeatEnemy(enemy);
 			this.game.world.hero.coordinates.setX(x);
 			this.game.world.hero.coordinates.setY(y);
-			hero.gainXp(enemy.getAttack() + enemy.getDefense() + enemy.getHealth());
+			hero.gainXp((enemy.getAttack() + enemy.getDefense() + enemy.getHealth()) * 10);
 			return true;
 		} else {
 			this.consoleGameView.onDeath(enemy);

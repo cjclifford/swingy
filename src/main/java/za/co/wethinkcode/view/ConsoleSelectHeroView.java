@@ -5,6 +5,7 @@ import za.co.wethinkcode.model.Hero;
 
 import java.lang.NumberFormatException;
 import java.lang.NullPointerException;
+import java.lang.ArrayIndexOutOfBoundsException;
 import java.util.Scanner;
 
 public class ConsoleSelectHeroView {
@@ -32,17 +33,21 @@ public class ConsoleSelectHeroView {
 			try {
 				index = Integer.parseInt(input) - 1;
 				try {
+					if (index < 0 && index >= this.game.heroes.size())
+						continue;
 					hero = this.game.heroes.get(index);
 					return hero;
 				} catch (NullPointerException e) {
-					System.out.printf("%d is not a valid hero\n", index);
+					System.out.println("Are you fucking blind?");
+				} catch (ArrayIndexOutOfBoundsException e) {
+					System.out.println("Are you fucking blind?");
 				}
 			} catch (NumberFormatException e) {
 				if (input.toUpperCase().contentEquals("B")) {
 					return null;
 				}
 				else
-					System.out.printf("%s is not a valid option\n", input);
+					System.out.println("Congratulations, you discovered an easter egg by being a complete idiot!");
 			}
 		}
 	}

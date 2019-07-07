@@ -60,20 +60,33 @@ public class World {
 	public void moveEnemies() {
 		int heroX = this.hero.coordinates.getX();
 		int heroY = this.hero.coordinates.getY();
-		
+		int enemyX;
+		int enemyY;
 		int minX = -1;
 		int minY = -1;
+		double minDistance;
+		double distance;
 		
 		for (Enemy enemy : this.enemies) {
-			double minDistance = Integer.MAX_VALUE; 
+			enemyX = enemy.coordinates.getX();
+			enemyY = enemy.coordinates.getY();
+			minDistance = Integer.MAX_VALUE;
 						
-			for (int i = enemy.coordinates.getY() - 1; i < 3; i++) {
-				for (int j = enemy.coordinates.getX() - 1; j < 3; j++) {
-					double distance = Math.sqrt((j - heroX) * (j - heroX) + (i - heroY) * (i - heroY));
-					if (this.board[i][j] == null && distance < minDistance) {
-						minDistance = distance;
-						minY = i;
-						minX = j;
+			for (int i = enemyY - 1; i <= enemyY + 1; i++) {
+				for (int j = enemyX - 1; j <= enemyX + 1; j++) {
+					if (i < 0 || i >= this.size || j < 0 || j >= this.size)
+						continue;
+					if (board[i][j] instanceof Hero)
+						enemy.isChasing = true;
+					if (this.board[i][j] != null)
+						continue;
+					if (enemy.isChasing) {						
+						distance = Math.sqrt((j - heroX) * (j - heroX) + (i - heroY) * (i - heroY));
+						if (distance < minDistance) {
+							minDistance = distance;
+							minY = i;
+							minX = j;
+						}
 					}
 				}
 			}
@@ -101,7 +114,7 @@ public class World {
 		
 		// TODO: give enemies different statistics based on level
 		this.enemyBuilder = new Enemy.EnemyBuilder("Generic Enemy")
-		.health(20)
+		.health(10)
 		.attack(1)
 		.defense(0);
 		

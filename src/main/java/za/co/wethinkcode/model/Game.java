@@ -40,9 +40,9 @@ public class Game {
 	public Map<EHelmet, Helmet> helmets;
 	
 	@NotNull
-	public RenderMode renderMode;
+	public ERenderMode renderMode;
 	
-	public Game(RenderMode renderMode) {
+	public Game(ERenderMode renderMode) {
 		this.renderMode = renderMode;
 		this.heroes = new ArrayList<>();
 		this.heroClasses = new HashMap<>();
@@ -50,11 +50,11 @@ public class Game {
 		this.armour = new HashMap<>();
 		this.helmets = new HashMap<>();
 		
-		// make some classes
+		// make some hero classes
 		this.heroClasses.put(
 				"Warrior",
 				new HeroClass(
-					100,
+					12,
 					1,
 					1,
 					this.weapons.get(EWeapon.RUSTY_SWORD),
@@ -64,9 +64,9 @@ public class Game {
 			);
 		
 		// make some items
-		this.weapons.put(EWeapon.RUSTY_SWORD, new Weapon("Rusty Sword", 1));
-		this.armour.put(EArmour.LEATHER_ARMOUR, new Armour("Leather Armour", 1));
-		this.helmets.put(EHelmet.LEATHER_CAP, new Helmet("Leather Cap", 5));
+		this.weapons.put(EWeapon.RUSTY_SWORD, new Weapon("Rusty Sword", "RUSTY_SWORD", 1));
+		this.armour.put(EArmour.LEATHER_ARMOUR, new Armour("Leather Armour", "LEATHER_ARMOUR", 1));
+		this.helmets.put(EHelmet.LEATHER_CAP, new Helmet("Leather Cap", "LEATHER_CAP", 5));
 	}
 
 }

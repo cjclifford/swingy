@@ -1,7 +1,8 @@
 package za.co.wethinkcode;
 
 import za.co.wethinkcode.model.Game;
-import za.co.wethinkcode.model.RenderMode;
+import za.co.wethinkcode.model.Hero;
+import za.co.wethinkcode.model.ERenderMode;
 import za.co.wethinkcode.model.EController;
 import za.co.wethinkcode.controller.IController;
 import za.co.wethinkcode.controller.MenuController;
@@ -11,11 +12,15 @@ import za.co.wethinkcode.controller.GameController;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.IOException;
 
 public class App {
 	
     public static void main( String[] args ) {
-    	RenderMode renderMode;
+    	ERenderMode renderMode;
     	
     	if (args.length == 0) {
     		System.out.println("Proper usage is: java -jar swingy.jar [console|gui]");
@@ -24,10 +29,10 @@ public class App {
     	
     	switch (args[0].toUpperCase()) {
     	case "CONSOLE":
-    		renderMode = RenderMode.CONSOLE;
+    		renderMode = ERenderMode.CONSOLE;
     		break;
     	case "GUI":
-    		renderMode = RenderMode.GUI;
+    		renderMode = ERenderMode.GUI;
     		break;
     	default:
     		return;
@@ -51,6 +56,31 @@ public class App {
     	
     	while (currentController != EController.QUIT) {
     		currentController = controllers.get(currentController).run();
+    	}
+    	
+    	File saveFile = new File("../../heroes.txt");
+    	try {    		
+    		BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile));
+    		for (Hero hero : game.heroes) {
+    			writer.write("");
+    			writer.append(String.format(
+    				"%s,%s,%d,%d,%d,%d,%d,%s,%s,%s\n",
+    				hero.getName(),
+    				hero.getHeroClass(),
+    				hero.getLevel(),
+    				hero.getXp(),
+    				hero.getHealth(),
+    				hero.getAttack(),
+    				hero.getDefense(),
+    				hero.getWeaponId(),
+    				hero.getArmourId(),
+    				hero.getHelmetId()
+    				)
+    			);
+    		}
+    		writer.close();
+    	} catch (IOException e) {
+    		System.out.println("Failed to open save file for writing");
     	}
     	
     	System.out.println("Thank you for playing Swingy!");
