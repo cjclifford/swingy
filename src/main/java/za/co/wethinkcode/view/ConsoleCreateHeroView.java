@@ -1,22 +1,17 @@
 package za.co.wethinkcode.view;
 
 import za.co.wethinkcode.model.Game;
-import za.co.wethinkcode.model.Game.EArmour;
-import za.co.wethinkcode.model.Game.EHelmet;
-import za.co.wethinkcode.model.Game.EWeapon;
 import za.co.wethinkcode.model.Hero;
 import za.co.wethinkcode.model.HeroClass;
-import za.co.wethinkcode.model.Weapon;
-import za.co.wethinkcode.model.Armour;
-import za.co.wethinkcode.model.Helmet;
 
 import java.util.Scanner;
 import java.util.Map;
-import java.util.HashMap;
 import java.lang.NullPointerException;
+import javax.validation.constraints.NotNull;
 
 public class ConsoleCreateHeroView {
 	
+	@NotNull
 	private Game game;
 	
 	public ConsoleCreateHeroView(Game game) {
@@ -51,6 +46,7 @@ public class ConsoleCreateHeroView {
 			heroClassName = scanner.nextLine();
 			try {
 				HeroClass heroClass = this.game.heroClasses.get(heroClassName);
+				System.out.println(heroClass.weapon);
 				return new Hero(
 					heroName,
 					heroClassName,

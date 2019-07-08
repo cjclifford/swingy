@@ -4,13 +4,14 @@ import javax.validation.constraints.NotNull;
 
 public class Hero extends Character {
 	
+	@NotNull
 	private String heroClass;
 	
-	private Weapon weapon;
+	public Weapon weapon;
 	
-	private Armour armour;
+	public Armour armour;
 	
-	private Helmet helmet;
+	public Helmet helmet;
 	
 	@NotNull
 	private int level;
@@ -18,7 +19,6 @@ public class Hero extends Character {
 	@NotNull
 	private int xp;
 	
-	@NotNull
 	private int xpRequirement;
 	
 	public Hero(String name, String heroClass, int level, int xp, int health, int attack, int defense, Weapon weapon, Armour armour, Helmet helmet) {
@@ -79,14 +79,6 @@ public class Hero extends Character {
 	
 	public int getXpRequirement() { return this.xpRequirement; }
 	
-	public Armour getEquippedArmour() { return this.armour; }
-	
-	public String getWeaponId() { return this.weapon.getId(); }
-	
-	public String getArmourId() { return this.armour.getId(); }
-	
-	public String getHelmetId() { return this.helmet.getId(); }
-	
 	private void levelUp() {
 		this.level++;
 		this.setHealth(this.getHealth() + 1);
@@ -119,7 +111,7 @@ public class Hero extends Character {
 	@Override
 	public String toString() {
 		return String.format(
-			"%-10s %-10s\thp:%d(%d)\tatk:%d(%d)\tdef:%d(%d)\tlvl:%d\txp:%d/%d",
+			"%-10s %-10s\thp:%d(%d)\tatk:%d(%d)\tdef:%d(%d)\tlvl:%d\txp:%d/%d\nWeapon: %s Armour: %s Helmet: %s",
 			this.getName(),
 			this.getHeroClass(),
 			this.getTotalHealth(),
@@ -130,7 +122,10 @@ public class Hero extends Character {
 			this.getDefense(),
 			this.getLevel(),
 			this.getXp(),
-			this.getXpRequirement()
+			this.getXpRequirement(),
+			this.weapon != null ? this.weapon.toString() : "none",
+			this.armour != null ? this.armour.toString() : "none",
+			this.helmet != null ? this.helmet.toString() : "none"
 		);
 	}
 

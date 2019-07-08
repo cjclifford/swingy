@@ -5,11 +5,13 @@ import za.co.wethinkcode.model.Hero;
 
 import java.lang.NumberFormatException;
 import java.lang.NullPointerException;
-import java.lang.ArrayIndexOutOfBoundsException;
+import java.lang.IndexOutOfBoundsException;
 import java.util.Scanner;
+import javax.validation.constraints.NotNull;
 
 public class ConsoleSelectHeroView {
 	
+	@NotNull
 	Game game;
 	
 	public ConsoleSelectHeroView(Game game) { this.game = game; }
@@ -39,7 +41,7 @@ public class ConsoleSelectHeroView {
 					return hero;
 				} catch (NullPointerException e) {
 					System.out.println("Are you fucking blind?");
-				} catch (ArrayIndexOutOfBoundsException e) {
+				} catch (IndexOutOfBoundsException e) {
 					System.out.println("Are you fucking blind?");
 				}
 			} catch (NumberFormatException e) {
@@ -47,7 +49,7 @@ public class ConsoleSelectHeroView {
 					return null;
 				}
 				else
-					System.out.println("Congratulations, you discovered an easter egg by being a complete idiot!");
+					System.out.println("Congratulations, you discovered an easter egg by being a downy!");
 			}
 		}
 	}

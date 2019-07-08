@@ -19,7 +19,14 @@ public class Enemy extends Character {
 		this.isChasing = false;
 	}
 	
+	public boolean hasLoot() { return this.loot != null; }
+	
 	public Item dropLoot() { return this.loot; }
+	
+	public void setLoot(Item loot) {
+		if (loot instanceof Weapon || loot instanceof Armour || loot instanceof Helmet)
+			this.loot = loot;
+	}
 	
 	public static class EnemyBuilder {
 
@@ -56,11 +63,6 @@ public class Enemy extends Character {
 		
 		public EnemyBuilder coordinates(int x, int y) {
 			this.coordinates = new Coordinates(x, y);
-			return this;
-		}
-		
-		public EnemyBuilder loot(Item loot) {
-			this.loot = loot;
 			return this;
 		}
 		

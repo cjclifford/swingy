@@ -7,13 +7,14 @@ import za.co.wethinkcode.model.Hero;
 import za.co.wethinkcode.model.Character;
 import za.co.wethinkcode.model.Enemy;
 import za.co.wethinkcode.model.World;
-import za.co.wethinkcode.model.ERenderMode;
 import za.co.wethinkcode.view.ConsoleGameView;
 
 import java.util.Random;
+import javax.validation.constraints.NotNull;
 
 public class GameController implements IController {
 	
+	@NotNull
 	private Game game;
 	
 	private ConsoleGameView consoleGameView;
@@ -31,7 +32,9 @@ public class GameController implements IController {
 			int attack = hero.getDefense() - enemy.getAttack();
 			
 			if (attack < 0) attack = 0;
-			int healthDamaged = hero.getEquippedArmour().getArmour() - attack;
+			int healthDamaged = -attack;
+			if (hero.armour != null)
+				 healthDamaged += hero.armour.getArmour();
 			if (healthDamaged < 0)
 				hero.setHealth(hero.getHealth() + healthDamaged);
 			this.game.world.removeEnemy(enemy);
@@ -39,9 +42,12 @@ public class GameController implements IController {
 			this.game.world.hero.coordinates.setX(x);
 			this.game.world.hero.coordinates.setY(y);
 			hero.gainXp((enemy.getAttack() + enemy.getDefense() + enemy.getHealth()) * 10);
+			if (enemy.hasLoot() && this.consoleGameView.onDropLoot(enemy.dropLoot()))
+				this.game.world.hero.equipItem(enemy.dropLoot());
 			return true;
 		} else {
 			this.consoleGameView.onDeath(enemy);
+			this.game.heroes.remove(hero);
 			return false;
 		}
 		
@@ -76,7 +82,7 @@ public class GameController implements IController {
 		case NORTH:
 			if (y <= 0) {
 				this.consoleGameView.onReachBoundary();
-				world.generateWorld();
+				world.generateWorld(this.game.getRandomItem(hero.getLevel()));
 			} else {
 				character = this.game.world.boardAt(x, y - 1);
 				if (character != null)
@@ -95,7 +101,7 @@ public class GameController implements IController {
 		case SOUTH:
 			if (y >= world.getSize() - 1) {
 				this.consoleGameView.onReachBoundary();
-				world.generateWorld();
+				world.generateWorld(this.game.getRandomItem(hero.getLevel()));
 			} else {
 				character = this.game.world.boardAt(x, y + 1);
 				if (character instanceof Enemy) {
@@ -112,7 +118,7 @@ public class GameController implements IController {
 		case WEST:
 			if (x <= 0) {
 				this.consoleGameView.onReachBoundary();
-				world.generateWorld();
+				world.generateWorld(this.game.getRandomItem(hero.getLevel()));
 			} else {
 				character = this.game.world.boardAt(x - 1, y);
 				if (character instanceof Enemy) {
@@ -129,7 +135,7 @@ public class GameController implements IController {
 		case EAST:
 			if (hero.coordinates.getX() >= world.getSize() - 1) {
 				this.consoleGameView.onReachBoundary();
-				world.generateWorld();
+				world.generateWorld(this.game.getRandomItem(hero.getLevel()));
 			} else {
 				character = this.game.world.boardAt(x + 1, y);
 				if (character instanceof Enemy) {

@@ -6,11 +6,14 @@ import za.co.wethinkcode.model.Hero;
 import za.co.wethinkcode.model.Enemy;
 import za.co.wethinkcode.model.World;
 import za.co.wethinkcode.model.EInput;
+import za.co.wethinkcode.model.Item;
 
 import java.util.Scanner;
+import javax.validation.constraints.NotNull;
 
 public class ConsoleGameView {
 	
+	@NotNull
 	private Game game;
 	
 	public ConsoleGameView(Game game) { this.game = game; }
@@ -66,6 +69,23 @@ public class ConsoleGameView {
 				return EInput.RUN;
 			default:
 				System.out.println("You cannot do that.");
+			}
+		}
+	}
+	
+	public boolean onDropLoot(Item loot) {
+		System.out.printf("The enemy dropped something.\n%s\nDo you want to equip it?\n[Y] Yes\n[N] No\n", loot.toString());
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		while (true) {			
+			switch (scanner.nextLine().toUpperCase()) {
+			case "Y":
+				return true;
+			case "N":
+				return false;
+			default:
+				System.out.println("That is not an option.");
 			}
 		}
 	}

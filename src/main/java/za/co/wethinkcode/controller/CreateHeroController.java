@@ -3,16 +3,14 @@ package za.co.wethinkcode.controller;
 import za.co.wethinkcode.model.Game;
 import za.co.wethinkcode.model.Hero;
 import za.co.wethinkcode.model.World;
-import za.co.wethinkcode.model.Game.EArmour;
-import za.co.wethinkcode.model.Game.EHelmet;
-import za.co.wethinkcode.model.Game.EWeapon;
-
 import za.co.wethinkcode.model.EController;
-import za.co.wethinkcode.model.HeroClass;
 import za.co.wethinkcode.view.ConsoleCreateHeroView;
+
+import javax.validation.constraints.NotNull;
 
 public class CreateHeroController implements IController {
 	
+	@NotNull
 	private Game game;
 	
 	private ConsoleCreateHeroView consoleCreateHeroView;
@@ -27,7 +25,8 @@ public class CreateHeroController implements IController {
 		
 		Hero hero = this.consoleCreateHeroView.onCreateHero();
 		
-		this.game.world = new World(hero);
+		this.game.heroes.add(hero);
+		this.game.world = new World(hero, this.game.getRandomItem(hero.getLevel()));
 		return EController.GAME;
 	}
 

@@ -7,25 +7,21 @@ import java.lang.Math;
 
 public class World {
 	
-	@NotNull
 	private int size;
 	
 	private ArrayList<Enemy> enemies;
 	
-	@NotNull
 	private Character[][] board;
 	
 	private Enemy.EnemyBuilder enemyBuilder;
 	
+	@NotNull
 	public Hero hero;
 	
-	private Random random;
-	
-	public World(Hero hero) {
+	public World(Hero hero, Item loot) {
 		this.hero = hero;
 		this.enemies = new ArrayList<Enemy>();
-		this.random = new Random();
-		this.generateWorld();
+		this.generateWorld(loot);
 	}
 	
 	public int getSize() { return this.size; }
@@ -99,7 +95,7 @@ public class World {
 		}
 	}
 	
-	public void generateWorld() {
+	public void generateWorld(Item loot) {
 		int level = this.hero.getLevel();
 		
 		// calculate size of map from hero level
@@ -123,6 +119,8 @@ public class World {
 		// 6.6% of the map will be filled with enemies
 		int enemyCount = (int)(this.size * this.size * 0.066);
 		
+		Random random = new Random();
+		
 		// create enemies at random locations on the map
 		for (int i = 0; i < enemyCount; i++) {
 			int randX = random.nextInt(this.size);
@@ -134,6 +132,9 @@ public class World {
 			this.enemies.add(this.enemyBuilder.coordinates(randY, randX).build());
 			this.updateBoard();
 		}
+		
+		// one random enemy has loot
+		this.enemies.get(new Random().nextInt(this.enemies.size())).setLoot(loot);
 		
 	}
 

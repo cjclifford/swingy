@@ -10,9 +10,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import javax.validation.constraints.NotNull;
 
 public class ConsoleMenuView {
 	
+	@NotNull
 	private Game game;
 	
 	public ConsoleMenuView(Game game) {
@@ -45,9 +47,9 @@ public class ConsoleMenuView {
 						Integer.parseInt(rawHero[4]),
 						Integer.parseInt(rawHero[5]),
 						Integer.parseInt(rawHero[6]),
-						this.game.weapons.get(Game.EWeapon.valueOf(rawHero[7])),
-						this.game.armour.get(Game.EArmour.valueOf(rawHero[8])),
-						this.game.helmets.get(Game.EHelmet.valueOf(rawHero[9]))
+						rawHero[7].equals("NONE") ? null : this.game.weapons.get(Game.EWeapon.valueOf(rawHero[7])),
+						rawHero[8].equals("NONE") ? null : this.game.armour.get(Game.EArmour.valueOf(rawHero[8])),
+						rawHero[9].equals("NONE") ? null : this.game.helmets.get(Game.EHelmet.valueOf(rawHero[9]))
 				);
 				this.game.heroes.add(loadedHero);
 			}

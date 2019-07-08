@@ -1,11 +1,16 @@
 package za.co.wethinkcode.model;
 
+import javax.validation.constraints.NotNull;
+
 public class HeroClass {
 	
+	@NotNull
 	public int health;
 	
+	@NotNull
 	public int attack;
 	
+	@NotNull
 	public int defense;
 	
 	public Weapon weapon;

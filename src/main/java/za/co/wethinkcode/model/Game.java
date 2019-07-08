@@ -1,17 +1,14 @@
 package za.co.wethinkcode.model;
 
 import za.co.wethinkcode.model.Weapon;
-import za.co.wethinkcode.model.Game.EArmour;
-import za.co.wethinkcode.model.Game.EHelmet;
-import za.co.wethinkcode.model.Game.EWeapon;
 import za.co.wethinkcode.model.HeroClass;
 import za.co.wethinkcode.model.Armour;
 import za.co.wethinkcode.model.Helmet;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Game {
 	
@@ -39,34 +36,54 @@ public class Game {
 	
 	public Map<EHelmet, Helmet> helmets;
 	
-	@NotNull
-	public ERenderMode renderMode;
-	
-	public Game(ERenderMode renderMode) {
-		this.renderMode = renderMode;
+	public Game() {
 		this.heroes = new ArrayList<>();
 		this.heroClasses = new HashMap<>();
 		this.weapons = new HashMap<>();
 		this.armour = new HashMap<>();
 		this.helmets = new HashMap<>();
 		
+		// make some items
+		this.weapons.put(EWeapon.RUSTY_SWORD, new Weapon("Rusty Sword", "RUSTY_SWORD", 1, 1));
+		this.armour.put(EArmour.LEATHER_ARMOUR, new Armour("Leather Armour", "LEATHER_ARMOUR", 1, 1));
+		this.helmets.put(EHelmet.LEATHER_CAP, new Helmet("Leather Cap", "LEATHER_CAP", 1, 5));
+		
 		// make some hero classes
 		this.heroClasses.put(
-				"Warrior",
-				new HeroClass(
-					12,
-					1,
-					1,
-					this.weapons.get(EWeapon.RUSTY_SWORD),
-					this.armour.get(EArmour.LEATHER_ARMOUR),
-					this.helmets.get(EHelmet.LEATHER_CAP)
-				)
-			);
+			"Warrior",
+			new HeroClass(
+				12,
+				1,
+				1,
+				null,
+				null,
+				null
+			)
+		);
+	}
+	
+	public Item getRandomItem(int level) {
+		ArrayList<Item> obtainableItems = new ArrayList<>();
+		Weapon weapon;
+		Armour armour;
+		Helmet helmet;
 		
-		// make some items
-		this.weapons.put(EWeapon.RUSTY_SWORD, new Weapon("Rusty Sword", "RUSTY_SWORD", 1));
-		this.armour.put(EArmour.LEATHER_ARMOUR, new Armour("Leather Armour", "LEATHER_ARMOUR", 1));
-		this.helmets.put(EHelmet.LEATHER_CAP, new Helmet("Leather Cap", "LEATHER_CAP", 5));
+		for (Map.Entry<EWeapon, Weapon> weaponEntry : this.weapons.entrySet()) {
+			weapon = weaponEntry.getValue();
+			if (weapon.getLevel() <= level)
+				obtainableItems.add(weapon);
+		}
+		for (Map.Entry<EArmour, Armour> armourEntry : this.armour.entrySet()) {
+			armour = armourEntry.getValue();
+			if (armour.getLevel() <= level)
+				obtainableItems.add(armour);
+		}
+		for (Map.Entry<EHelmet, Helmet> helmetEntry : this.helmets.entrySet()) {
+			helmet = helmetEntry.getValue();
+			if (helmet.getLevel() <= level)
+				obtainableItems.add(helmet);
+		}
+		return obtainableItems.get(new Random().nextInt(obtainableItems.size()));
 	}
 
 }
