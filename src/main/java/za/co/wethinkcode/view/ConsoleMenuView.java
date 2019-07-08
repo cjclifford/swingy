@@ -22,7 +22,7 @@ public class ConsoleMenuView {
 	}
 	
 	private boolean onLoadHeroes() {
-		File file = new File("../../heroes.txt");
+		File file = new File("heroes.txt");
 		
 		try {
 			Scanner scanner = new Scanner(file);

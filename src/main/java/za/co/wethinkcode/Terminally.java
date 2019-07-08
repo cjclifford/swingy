@@ -57,7 +57,7 @@ public class Terminally {
     		currentController = controllers.get(currentController).run();
     	}
     	
-    	File saveFile = new File("../../heroes.txt");
+    	File saveFile = new File("heroes.txt");
     	try {    		
     		BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile));
     		for (Hero hero : game.heroes) {
@@ -82,7 +82,7 @@ public class Terminally {
     	} catch (IOException e) {
     		System.out.println("Failed to open save file for writing");
     	}
-    	
+    	clearScreen();
     	System.out.println("Thank you for playing Swingy!");
     }
     
